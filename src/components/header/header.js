@@ -5,9 +5,9 @@ import HeaderButton from "./headerButton";
 
 const HeaderWrapper = styled.header`
 display: flex;
+width: 100%;
 flex-direction: row;
 align-items: stretch;
-margin-top: 25px;
 margin: 25px 0 45px;
 height: 3em;
 
