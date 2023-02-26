@@ -17,11 +17,11 @@ h1 {
 }
 `
 
-export default function Header() {
+export default function Header({handleModalOpen}) {
     return (
         <HeaderWrapper>
             <h1 tabIndex={0}>Type<span style={{width: '0.5ch', display: 'inline-block'}}></span><FontAwesomeIcon icon={faFlagCheckered} size={"xs"} /><span style={{width: '0.5ch', display: 'inline-block'}}></span>Racer</h1>
-            <HeaderButton icon={faFill} text={"theme"} />
+            <HeaderButton icon={faFill} text={"theme"} handleClick={() => handleModalOpen(prevModalState => !prevModalState)} />
             <HeaderButton icon={faLanguage} text={"language"} />
         </HeaderWrapper>
     )

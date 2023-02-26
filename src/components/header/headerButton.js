@@ -19,9 +19,9 @@ svg + span {
     }
 `
 
-export default function HeaderButton({icon, text}) {
+export default function HeaderButton({icon, text, handleClick}) {
     return (
-    <StyledButton tabIndex={0}>
+    <StyledButton tabIndex={0} onClick={handleClick}>
         <FontAwesomeIcon icon={icon} size={"xl"}/>
         <span>{text}</span>
     </StyledButton>
