@@ -13,11 +13,6 @@ svg + span {
     visibility: hidden;
 }
 
-// svg:hover + span {
-//     visibility: visible;
-//     transition: all 0.250s ease;
-// }
-
 &:hover svg + span {
         visibility: visible;
         transition: all 0.250s ease;
@@ -26,7 +21,7 @@ svg + span {
 
 export default function HeaderButton({icon, text}) {
     return (
-    <StyledButton>
+    <StyledButton tabIndex={0}>
         <FontAwesomeIcon icon={icon} size={"xl"}/>
         <span>{text}</span>
     </StyledButton>

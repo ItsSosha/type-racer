@@ -46,6 +46,7 @@ animation: ${sliderAnimation} 10s linear infinite;
 
 p {
     display: inline-block;
+    user-select: none;
 }
 `
 

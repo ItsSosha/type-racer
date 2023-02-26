@@ -3,6 +3,7 @@ import styled from "styled-components"
 import Header from "../header/header"
 import InfiniteSlider from "../infiniteSlider/infiniteSlider"
 import Main from "../main/main"
+import Footer from "../footer/footer"
 
 const AppWrapper = styled.div`
 color: #000000;
@@ -27,6 +28,7 @@ export default function App() {
                 <p>How fast can you type? &nbsp;</p>
             </InfiniteSlider>
             <Main />
+            <Footer />
         </AppWrapper>
     )
 }

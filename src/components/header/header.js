@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFill, faLanguage } from "@fortawesome/free-solid-svg-icons"
+import { faFill, faLanguage, faFlagCheckered } from "@fortawesome/free-solid-svg-icons"
 import HeaderButton from "./headerButton";
 
 const HeaderWrapper = styled.header`
@@ -20,7 +20,7 @@ h1 {
 export default function Header() {
     return (
         <HeaderWrapper>
-            <h1>Type Racer</h1>
+            <h1 tabIndex={0}>Type<span style={{width: '0.5ch', display: 'inline-block'}}></span><FontAwesomeIcon icon={faFlagCheckered} size={"xs"} /><span style={{width: '0.5ch', display: 'inline-block'}}></span>Racer</h1>
             <HeaderButton icon={faFill} text={"theme"} />
             <HeaderButton icon={faLanguage} text={"language"} />
         </HeaderWrapper>
