@@ -7,6 +7,7 @@ width: 4em;
 margin-right: 10px;
 cursor: pointer;
 align-items: center;
+user-select: none;
 svg + span {
     align-self: end;
     font-size: 13px;

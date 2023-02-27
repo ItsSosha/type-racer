@@ -1,5 +1,5 @@
 import { useState } from "react"
-import styled from "styled-components"
+import styled, { ThemeProvider } from "styled-components"
 import Header from "../header/header"
 import InfiniteSlider from "../infiniteSlider/infiniteSlider"
 import Main from "../main/main"
@@ -20,19 +20,19 @@ export default function App() {
     const [isShown, setIsShown] = useState(false);
 
     return (
-        <AppWrapper>
-            <Header handleModalOpen={setIsShown}/>
-            <Modal isShown={isShown} handleModalClose={setIsShown}/>
-            <InfiniteSlider>
-                <p>How fast can you type? &nbsp;</p>
-                <p>How fast can you type? &nbsp;</p>
-                <p>How fast can you type? &nbsp;</p>
-                <p>How fast can you type? &nbsp;</p>
-                <p>How fast can you type? &nbsp;</p>
-                <p>How fast can you type? &nbsp;</p>
-            </InfiniteSlider>
-            <Main />
-            <Footer />
-        </AppWrapper>
+            <AppWrapper>
+                <Header handleModalOpen={setIsShown}/>
+                <Modal isShown={isShown} handleModalClose={setIsShown}/>
+                <InfiniteSlider>
+                    <p>How fast can you type? &nbsp;</p>
+                    <p>How fast can you type? &nbsp;</p>
+                    <p>How fast can you type? &nbsp;</p>
+                    <p>How fast can you type? &nbsp;</p>
+                    <p>How fast can you type? &nbsp;</p>
+                    <p>How fast can you type? &nbsp;</p>
+                </InfiniteSlider>
+                <Main />
+                <Footer />
+            </AppWrapper>
     )
 }
