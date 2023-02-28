@@ -24,16 +24,18 @@ export default function Timer(props) {
         setDeadline(new Date(new Date().getTime() + props.seconds * 1000));
     }
 
-    const isInitialMount = useRef(true);
+    const isInitialMount1 = useRef(true);
+    const isInitialMount2 = useRef(true);
 
     useEffect(() => {
-      if (isInitialMount.current) {
-         isInitialMount.current = false;
+      if (isInitialMount1.current) {
+         isInitialMount1.current = false;
       } else {
         const timerId = setInterval(() => {
             const left = getTimeLeft();
             if (left <= 0) {
                 clearInterval(timerId);
+                props.setTestingState(false);
             }
         }, 1000)
 
@@ -42,6 +44,16 @@ export default function Timer(props) {
         } 
       }
     }, [deadline]);
+
+    useEffect(() => {
+        if (isInitialMount2.current) {
+            isInitialMount2.current = false;
+        } else {
+            if (props.testingState) {
+                handleClick();
+            }
+        }
+    }, [props.testingState])
 
     return (
         <TimerWrapper>
