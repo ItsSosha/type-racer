@@ -31,54 +31,58 @@ pointer-events: none;
 `
 
 const ModalContent = styled.div`
-    /* height: 75vh;
-    min-width: 300px;
-    width: 40%;
-    background-color: wheat;
-    border-radius: 10px;
-    align-self: center;
-    transition: all .5s ease-out;
-    border: 3px ${darken(0.225, "#F5DEB3")} solid;
-    overflow: hidden; */
-
     display: flex;
     flex-direction: column;
     height: 75vh;
     min-width: 300px;
     width: 40%;
-    background-color: wheat;
+    background-color: ${props => props.theme.background};
     border-radius: 10px;
     align-self: center;
     transition: all .5s ease-out;
-    border: 3px ${darken(0.225, "#F5DEB3")} solid;
+    border: 3px ${props => darken(0.225, props.theme.background)} solid;
     overflow: hidden;
  
 `
-const themes = [
-    {
-        name: "first",
-        background: "#F48498",
-        main: "#ACD8AA",
-        secondary: "#FFE6E8",
-        text: "#F2CCC3",
-    },
-    {
-        name: "carbon",
-        background: "#313131",
-        main: "#F66E0D",
-        secondary: "#616161",
-        text: "#F5E6C8"
-    }
-]
+// const themes = [
+//     {
+//         name: "first",
+//         background: "#F48498",
+//         main: "#ACD8AA",
+//         secondary: "#FFE6E8",
+//         text: "#F2CCC3",
+//     },
+//     {
+//         name: "carbon",
+//         background: "#313131",
+//         main: "#F66E0D",
+//         secondary: "#616161",
+//         text: "#F5E6C8"
+//     }
+// ]
+
+// const themes = {
+//     first: {
+//         background: "#F48498",
+//         main: "#ACD8AA",
+//         secondary: "#FFE6E8",
+//         text: "#F2CCC3",
+//     },
+//     carbon: {
+//         background: "#313131",
+//         main: "#F66E0D",
+//         secondary: "#616161",
+//         text: "#F5E6C8"
+//     }
+// }
 
 const Search = styled.input`
 display: block;
-/* justify-content: center; */
 width: 100%;
 height: 2em;
 padding: 1em 1em 1em 0;
 border-top-right-radius: 10px;
-background-color: wheat;
+background-color: rgba(0, 0, 0, 0);
 outline: none;
 border: none;
 font-size: 1rem;
@@ -101,30 +105,36 @@ overflow-y: auto;
 }
 
 &::-webkit-scrollbar-thumb {
-    background-color: #000000;
+    background-color: ${props => props.theme.secondary};
     border-radius: 3px;
 }
 
 &::-webkit-scrollbar-thumb:hover {
-    background-color: ${lighten(0.5, "#000000")};
+    background-color: ${props => lighten(0.5, props.theme.text)};
 }
 
 &::-webkit-scrollbar-thumb:active {
-    background-color: ${lighten(0.8, "#000000")};
+    background-color: ${props => lighten(0.8, props.theme.main)};
 }
 
 `
 
-export default function Modal({isShown, handleModalClose}) {
+export default function Modal({isShown, handleModalClose, handleThemeChange, themes}) {
 
-    const themeButtons = themes.map(theme => {
+    const names = Object.keys(themes);
+
+    const themeButtons = names.map((theme, index) => {
         return (
-            <ThemeButton theme={theme}/>
+            <ThemeButton themePreview={{...themes[theme], name: theme}} handleThemeChange={e => {
+                handleThemeChange(e.currentTarget.dataset.theme);
+                handleModalClose(prevModalState => !prevModalState)
+            }}/>
         )
     })
 
     return (
-        <ModalWrapper className={isShown ? "show" : ""} onClick={() => handleModalClose(prevModalState => !prevModalState)}>
+        <ModalWrapper className={isShown ? "show" : ""} 
+            onClick={() => handleModalClose(prevModalState => !prevModalState)} >
             <ModalContent onClick={e => e.stopPropagation()}>
                 <div style={{display: "flex", alignItems: "center", padding: "0.5em 0"}}>
                     <FontAwesomeIcon icon={faSearch} style={{padding: '0 0.5em'}} size={"lg"}></FontAwesomeIcon>

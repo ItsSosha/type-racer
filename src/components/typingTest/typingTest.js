@@ -62,12 +62,12 @@ z-index: 2;
 
 const LetterError = styled.span`
 padding: 0;
-color: red;
+color: ${props => props.theme.error};
 `
 
 const LetterRight = styled.span`
 padding: 0;
-color: greenyellow;
+color: ${props => props.theme.text};
 `
 
 export default function TypingTest({words}) {
@@ -150,6 +150,7 @@ const CapsWarningWrapper = styled.div`
     transform: translateX(-50%);
     font-weight: 300;
     font-size: 14px;
+    color: ${props => props.theme.text}
 `
 
 function CapsWarning({isCapsPressed}) {

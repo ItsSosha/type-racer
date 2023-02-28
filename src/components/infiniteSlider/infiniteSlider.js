@@ -10,15 +10,27 @@ const sliderAnimation = keyframes`
 }
 `
 
+const sliderOpacity = keyframes`
+0% {
+    opacity: 0;
+}
+100% {
+    opacity: 1;
+}
+`
+
 const SliderWrapper = styled.div`
 max-width: 100%;
 overflow: hidden;
 position: relative;
+opacity: 0;
+animation: 0.5s linear ${props => props.delay}s ${sliderOpacity} forwards;
 
 &:before,
 &:after {
     content: '';
-    background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    background:linear-gradient(to right,${props => props.theme.background} 0%, 
+        rgba(255, 255, 255, 0) 100%);
     height: 100%;
     position: absolute;
     top: 0;
@@ -50,11 +62,11 @@ p {
 }
 `
 
-export default function InfiniteSlider({children}) {
+export default function InfiniteSlider({children, delay}) {
     const itemsAmount = Children.count(children);
 
     return (
-        <SliderWrapper>
+        <SliderWrapper delay={delay}>
             <ItemsContainer itemsAmount={itemsAmount}>
                 {children}
                 {children}

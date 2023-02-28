@@ -46,7 +46,7 @@ export default function Timer(props) {
     return (
         <TimerWrapper>
             {seconds}
-            <button onClick={handleClick}>Start timer!</button>
+            {/* <button onClick={handleClick}>Start timer!</button> */}
         </TimerWrapper>
     )
 }

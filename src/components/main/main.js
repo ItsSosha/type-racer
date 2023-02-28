@@ -12,12 +12,10 @@ margin: 45px 0 auto;
 const words = faker.random.words(100);
 
 export default function Main() {
-    console.log(words);
     return (
         <MainWrapper>
             <Timer seconds={30}/>
             <TypingTest words={words}/>       
-            Main
         </MainWrapper>
     )
 }

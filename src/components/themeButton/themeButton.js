@@ -13,12 +13,12 @@ user-select: none;
 cursor: pointer;
 
 &:hover {
-    background-color: ${lighten(0.08, "#F5DEB3")};
+    background-color: ${props => lighten(0.08, props.theme.background)};
 }
 `
 
 const ThemePreview = styled.div`
-background-color: ${props => props.theme.background};
+background-color: ${props => props.themePreview.background};
 display: flex;
 justify-content: space-evenly;
 align-items: center;
@@ -35,25 +35,26 @@ height: 100%;
 }
 
 & > div:nth-child(1) {
-    background-color: ${props => props.theme.main};
+    background-color: ${props => props.themePreview.main};
 }
 
 & > div:nth-child(2) {
-    background-color: ${props => props.theme.secondary};
+    background-color: ${props => props.themePreview.secondary};
 }
 
 & > div:nth-child(3) {
-    background-color: ${props => props.theme.text};
+    background-color: ${props => props.themePreview.text};
 }
 `
 
 
 
-export default function ThemeButton({theme}) {
+
+export default function ThemeButton({themePreview, handleThemeChange}) {
     return (
-        <ButtonWrapper>
-            <span>{theme.name}</span>
-            <ThemePreview theme={theme} >
+        <ButtonWrapper data-theme={themePreview.name} onClick={handleThemeChange}>
+            <span>{themePreview.name}</span>
+            <ThemePreview themePreview={themePreview} >
                 <div></div>
                 <div></div>
                 <div></div>

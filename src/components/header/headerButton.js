@@ -8,6 +8,7 @@ margin-right: 10px;
 cursor: pointer;
 align-items: center;
 user-select: none;
+color: ${props => props.theme.main};
 svg + span {
     align-self: end;
     font-size: 13px;
@@ -23,7 +24,7 @@ svg + span {
 export default function HeaderButton({icon, text, handleClick}) {
     return (
     <StyledButton tabIndex={0} onClick={handleClick}>
-        <FontAwesomeIcon icon={icon} size={"xl"}/>
+        <FontAwesomeIcon icon={icon} size={"xl"} />
         <span>{text}</span>
     </StyledButton>
     )
