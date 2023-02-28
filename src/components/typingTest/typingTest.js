@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { useState, useRef, useEffect, useMemo } from "react";
+import Timer from "../timer/timer";
 
 const caretAnimation = keyframes`
 0% {
@@ -70,11 +71,11 @@ padding: 0;
 color: ${props => props.theme.text};
 `
 
-export default function TypingTest({words}) {
+export default function TypingTest({words, testingState, setTestingState}) {
     const [lettersWritten, setLettersWritten] = useState(0)
     const [userInput, setUserInput] = useState('');
     const [caps, setCaps] = useState('');
-    const testRef = useRef(null)
+    const testRef = useRef(null);
 
 
     const lettersArr = words.split('');
@@ -90,6 +91,9 @@ export default function TypingTest({words}) {
     const memoizedElements = useMemo(() => createLetterSpans(lettersArr), [words]);
 
     const handleKeyDown = e => {
+        if (!testingState) {
+            setTestingState(true);
+        }
         if (e.key == "CapsLock") {
             setCaps(prevCaps => e.getModifierState('CapsLock') ? true : false);
         } else if (e.key == "Backspace" && lettersWritten > 0) {
@@ -129,16 +133,19 @@ export default function TypingTest({words}) {
     })
 
     return (
-        <TestWrapper ref={testRef} tabIndex={0} onKeyDown={handleKeyDown}>
-            <CapsWarning isCapsPressed={caps}/>
-            <Caret />
-            <StyledUserInput right={lettersWritten}>
-                {letters}
-            </StyledUserInput>
-            <WordsContainer left={lettersWritten}>
-                {memoizedElements}
-            </WordsContainer>
-        </TestWrapper>
+        <>
+            <Timer seconds={30} testingState={testingState} setTestingState={setTestingState}/>
+            <TestWrapper ref={testRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                <CapsWarning isCapsPressed={caps}/>
+                <Caret />
+                <StyledUserInput right={lettersWritten}>
+                    {letters}
+                </StyledUserInput>
+                <WordsContainer left={lettersWritten}>
+                    {memoizedElements}
+                </WordsContainer>
+            </TestWrapper>
+        </>
     )
 }
 
