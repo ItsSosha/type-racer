@@ -46,7 +46,7 @@ export default function Main() {
         lettersWritten: 0,
         totalTypings: 0
     });
-//onClick={setIsShowingResults(prevResultState => !prevResultState)}
+
     const content = isShowingResults 
         ? <>
             <Results testStatistics={testStatistics}/>
@@ -64,21 +64,14 @@ export default function Main() {
             </RestartButton>
         </>
         : <TypingTest words={words} 
-        testingState={isTesting} 
-        setTestingState={setIsTesting} 
-        testStatistics={testStatistics}
-        setTestStatistics={setTestStatistics}
-        isShowingResults={isShowingResults}
-        setIsShowingResults={setIsShowingResults}/> 
+            testingState={isTesting} 
+            setTestingState={setIsTesting} 
+            testStatistics={testStatistics}
+            setTestStatistics={setTestStatistics}
+            isShowingResults={isShowingResults}
+            setIsShowingResults={setIsShowingResults}/> 
 
     return (
-        // <MainWrapper>
-        //     <TypingTest words={words} 
-        //         testingState={isTesting} 
-        //         setTestingState={setIsTesting} 
-        //         testStatistics={testStatistics}
-        //         setTestStatistics={setTestStatistics}/> 
-        // </MainWrapper>
         <MainWrapper>
             {content}
         </MainWrapper>
