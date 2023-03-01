@@ -138,7 +138,7 @@ export default function TypingTest({words, testingState, setTestingState, testSt
 
             //Версія 3: позбавлена від використання рефу, працює
             setUserInput(prevUserInput => {
-                backspacedLetters.current.push(prevUserInput[testStatistics.lettersWritten - 1]);
+                // backspacedLetters.current.push(prevUserInput[testStatistics.lettersWritten - 1]);
                 setTestStatistics(prevTestStatistics => {
                     //prevUserInput[prevUserInput.length - 1] !== " " && 
                     if (prevUserInput[prevUserInput.length - 1] === lettersArr[prevTestStatistics.lettersWritten - 1]) {
@@ -170,8 +170,6 @@ export default function TypingTest({words, testingState, setTestingState, testSt
                 return;
             }
 
-            const backspacedLength = backspacedLetters.current.length;
-
             setUserInput(prevUserInput => prevUserInput + e.key);
             if (e.key !== lettersArr[testStatistics.lettersWritten]) {
                 setTestStatistics(prevTestStatistics => ({
@@ -202,9 +200,9 @@ export default function TypingTest({words, testingState, setTestingState, testSt
                     totalTypings: prevTestStatistics.totalTypings + 1
                 }))
             }
-            if (backspacedLetters.current.length > 0) {
-                backspacedLetters.current.pop();
-            }
+            // if (backspacedLetters.current.length > 0) {
+            //     backspacedLetters.current.pop();
+            // }
         }
     }
 
