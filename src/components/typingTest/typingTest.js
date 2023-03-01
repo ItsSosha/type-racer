@@ -71,11 +71,12 @@ padding: 0;
 color: ${props => props.theme.text};
 `
 
-export default function TypingTest({words, testingState, setTestingState}) {
-    const [lettersWritten, setLettersWritten] = useState(0)
+export default function TypingTest({words, testingState, setTestingState, testStatistics, setTestStatistics}) {
+    // const [lettersWritten, setLettersWritten] = useState(0)
     const [userInput, setUserInput] = useState('');
     const [caps, setCaps] = useState('');
     const testRef = useRef(null);
+    const backspacedLetters = useRef([]);
 
 
     const lettersArr = words.split('');
@@ -88,23 +89,67 @@ export default function TypingTest({words, testingState, setTestingState}) {
         })
     }
 
-    const memoizedElements = useMemo(() => createLetterSpans(lettersArr), [words]);
+    const memoizedElements = useMemo(() => {
+        return createLetterSpans(lettersArr)
+    }, [words]);
 
     const handleKeyDown = e => {
-        if (!testingState) {
+        if (!testingState && e.key.length !== 1 && e.key !== " ") {
+            return;
+        } else if (!testingState) {
             setTestingState(true);
-        }
+        } 
         if (e.key == "CapsLock") {
-            setCaps(prevCaps => e.getModifierState('CapsLock') ? true : false);
-        } else if (e.key == "Backspace" && lettersWritten > 0) {
-            setUserInput(prevUserInput => prevUserInput.slice(0, prevUserInput.length - 1));
-            setLettersWritten(prevLetters => prevLetters - 1);
+            setCaps(e.getModifierState('CapsLock') ? true : false);
+        } else if (e.key == "Backspace" && testStatistics.lettersWritten > 0) {
+            setUserInput(prevUserInput => {
+                backspacedLetters.current.push(prevUserInput[testStatistics.lettersWritten - 1]);
+                return prevUserInput.slice(0, prevUserInput.length - 1)
+            });
+            setTestStatistics(prevTestStatistics => ({
+                ...prevTestStatistics,
+                lettersWritten: prevTestStatistics.lettersWritten - 1
+            }))
         } else if (e.key.length == 1) {
-            if (lettersArr[lettersWritten] == " " && e.key != lettersArr[lettersWritten]) {
+            if (lettersArr[testStatistics.lettersWritten] == " " && e.key != lettersArr[testStatistics.lettersWritten]) {
                 return;
             }
             setUserInput(prevUserInput => prevUserInput + e.key);
-            setLettersWritten(prevLetters => prevLetters + 1);
+             if (backspacedLetters.current.length > 0) {
+                    backspacedLetters.current.pop();
+                }
+            if (e.key != lettersArr[testStatistics.lettersWritten]) {
+                setTestStatistics(prevTestStatistics => ({
+                    ...prevTestStatistics,
+                    errorTypings: prevTestStatistics.errorTypings + 1,
+                    lettersWritten: prevTestStatistics.lettersWritten + 1
+                }))
+            } else {
+                setTestStatistics(prevTestStatistics => ({
+                    ...prevTestStatistics,
+                    rightTypings: prevTestStatistics.rightTypings + 1,
+                    lettersWritten: prevTestStatistics.lettersWritten + 1
+                }))
+            }
+            // setTestStatistics(prevTestStatistics => {
+            //     // if (backspacedLetters.length > 0) {
+            //     //     backspacedLetters.current.shift();
+            //     // }
+            //     if (e.key != lettersArr[testStatistics.lettersWritten]) {
+            //         return {
+            //             ...prevTestStatistics,
+            //             rightTypings: prevTestStatistics.rightTypings + 1,
+            //             lettersWritten: prevTestStatistics.lettersWritten + 1
+            //         }
+            //     } else {
+            //         if (prevTestStatistics.lettersWritten)
+            //         return {
+            //             ...prevTestStatistics,
+            //             rightTypings: prevTestStatistics.rightTypings + 1,
+            //             lettersWritten: prevTestStatistics.lettersWritten + 1
+            //         }
+            //     }
+            // })
         }
     }
 
@@ -113,7 +158,7 @@ export default function TypingTest({words, testingState, setTestingState}) {
     }, [])
 
     const letters = lettersArr.map((letter, index) => {
-        if (index < lettersWritten) {
+        if (index < testStatistics.lettersWritten) {
             if (userInput[index] == letter) {
                 if (letter == " ") {
                     return (
@@ -138,10 +183,10 @@ export default function TypingTest({words, testingState, setTestingState}) {
             <TestWrapper ref={testRef} tabIndex={0} onKeyDown={handleKeyDown}>
                 <CapsWarning isCapsPressed={caps}/>
                 <Caret />
-                <StyledUserInput right={lettersWritten}>
+                <StyledUserInput right={testStatistics.lettersWritten}>
                     {letters}
                 </StyledUserInput>
-                <WordsContainer left={lettersWritten}>
+                <WordsContainer left={testStatistics.lettersWritten}>
                     {memoizedElements}
                 </WordsContainer>
             </TestWrapper>
