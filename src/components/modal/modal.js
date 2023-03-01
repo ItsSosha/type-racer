@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ThemeContext } from "styled-components";
 import { darken, lighten } from "polished";
 import ThemeButton from "../themeButton/themeButton";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -123,12 +124,17 @@ export default function Modal({isShown, handleModalClose, handleThemeChange, the
 
     const names = Object.keys(themes);
 
-    const themeButtons = names.map((theme, index) => {
+    const selectedTheme = useContext(ThemeContext);
+
+    const themeButtons = names.map(theme => {
         return (
             <ThemeButton themePreview={{...themes[theme], name: theme}} handleThemeChange={e => {
                 handleThemeChange(e.currentTarget.dataset.theme);
-                handleModalClose(prevModalState => !prevModalState)
-            }}/>
+                handleModalClose(prevModalState => !prevModalState);
+                localStorage.setItem('theme', theme);
+
+            }}
+            isSelected={theme === selectedTheme.name ? true : false}/>
         )
     })
 

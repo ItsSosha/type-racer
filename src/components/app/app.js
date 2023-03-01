@@ -28,6 +28,7 @@ transition: inherit;
 
 const themes = {
     first: {
+        name: "first",
         background: "#F48498",
         main: "#ACD8AA",
         secondary: "#FFE6E8",
@@ -35,6 +36,7 @@ const themes = {
         error: "#E72D2D"
     },
     carbon: {
+        name: "carbon",
         background: "#313131",
         main: "#F66E0D",
         secondary: "#616161",
@@ -42,6 +44,7 @@ const themes = {
         error: "#E72D2D"
     },
     cheesecake: {
+        name: "cheesecake",
         background: "#fdf0d5",
         main: "#8e2949",
         secondary: "#d91c81",
@@ -51,8 +54,9 @@ const themes = {
 }
 
 export default function App() {
+    const initialTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'first';
     const [isShown, setIsShown] = useState(false);
-    const [theme, setTheme] = useState('first');
+    const [theme, setTheme] = useState(initialTheme);
 
     return (
         <ThemeProvider theme={themes[theme]}>

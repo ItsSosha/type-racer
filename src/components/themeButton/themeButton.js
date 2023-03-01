@@ -7,6 +7,9 @@ justify-content: start;
 align-items: center;
 padding: 5px 15px;
 font-size: 14px;
+background-color: ${props => props.isSelected 
+? lighten(0.08, props.theme.background)
+: "transparent"};
 width: 100%;
 height: 2em;
 user-select: none;
@@ -50,9 +53,9 @@ height: 100%;
 
 
 
-export default function ThemeButton({themePreview, handleThemeChange}) {
+export default function ThemeButton({themePreview, handleThemeChange, isSelected}) {
     return (
-        <ButtonWrapper data-theme={themePreview.name} onClick={handleThemeChange}>
+        <ButtonWrapper data-theme={themePreview.name} onClick={handleThemeChange} isSelected={isSelected}>
             <span>{themePreview.name}</span>
             <ThemePreview themePreview={themePreview} >
                 <div></div>
