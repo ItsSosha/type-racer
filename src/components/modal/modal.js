@@ -45,37 +45,6 @@ const ModalContent = styled.div`
     overflow: hidden;
  
 `
-// const themes = [
-//     {
-//         name: "first",
-//         background: "#F48498",
-//         main: "#ACD8AA",
-//         secondary: "#FFE6E8",
-//         text: "#F2CCC3",
-//     },
-//     {
-//         name: "carbon",
-//         background: "#313131",
-//         main: "#F66E0D",
-//         secondary: "#616161",
-//         text: "#F5E6C8"
-//     }
-// ]
-
-// const themes = {
-//     first: {
-//         background: "#F48498",
-//         main: "#ACD8AA",
-//         secondary: "#FFE6E8",
-//         text: "#F2CCC3",
-//     },
-//     carbon: {
-//         background: "#313131",
-//         main: "#F66E0D",
-//         secondary: "#616161",
-//         text: "#F5E6C8"
-//     }
-// }
 
 const Search = styled.input`
 display: block;

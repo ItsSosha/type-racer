@@ -72,12 +72,9 @@ color: ${props => props.theme.text};
 `
 
 export default function TypingTest({words, testingState, setTestingState, testStatistics, setTestStatistics, isShowingResults, setIsShowingResults}) {
-    // const [lettersWritten, setLettersWritten] = useState(0)
     const [userInput, setUserInput] = useState('');
     const [caps, setCaps] = useState('');
     const testRef = useRef(null);
-    const backspacedLetters = useRef([]);
-
 
     const lettersArr = words.split('');
 
@@ -103,44 +100,8 @@ export default function TypingTest({words, testingState, setTestingState, testSt
         if (e.key == "CapsLock") {
             setCaps(e.getModifierState('CapsLock') ? true : false);
         } else if (e.key == "Backspace" && testStatistics.lettersWritten > 0) {
-            //Версія 1: підходить для режиму, коли написані правильно літери не втрачаються, але не можуть бути отримані декілька раз
-            // setUserInput(prevUserInput => {
-            //     backspacedLetters.current.push(prevUserInput[testStatistics.lettersWritten - 1]);
-            //     return prevUserInput.slice(0, prevUserInput.length - 1)
-            // });
-            // setTestStatistics(prevTestStatistics => ({
-            //     ...prevTestStatistics,
-            //     lettersWritten: prevTestStatistics.lettersWritten - 1
-            // }))
-
-            //Версія 2: для режиму зі стиранням правильних натискань, баг - не встигає рахувати правильні натискання
-            // setUserInput(prevUserInput => {
-            //     backspacedLetters.current.push(prevUserInput[testStatistics.lettersWritten - 1]);
-            //     return prevUserInput.slice(0, prevUserInput.length - 1)
-            // });
-
-            // const backspacedLength = backspacedLetters.current.length;
-
-            // setTestStatistics(prevTestStatistics => {
-            //     if (backspacedLetters.current[backspacedLength - 1] === lettersArr[prevTestStatistics.lettersWritten - 1]) {
-            //         return {
-            //             ...prevTestStatistics,
-            //             rightTypings: prevTestStatistics.rightTypings - 1,
-            //             lettersWritten: prevTestStatistics.lettersWritten - 1
-            //         }
-            //     } else {
-            //         return {
-            //             ...prevTestStatistics,
-            //             lettersWritten: prevTestStatistics.lettersWritten - 1
-            //         }
-            //     }
-            // })
-
-            //Версія 3: позбавлена від використання рефу, працює
             setUserInput(prevUserInput => {
-                // backspacedLetters.current.push(prevUserInput[testStatistics.lettersWritten - 1]);
                 setTestStatistics(prevTestStatistics => {
-                    //prevUserInput[prevUserInput.length - 1] !== " " && 
                     if (prevUserInput[prevUserInput.length - 1] === lettersArr[prevTestStatistics.lettersWritten - 1]) {
                         return {
                             ...prevTestStatistics,
@@ -155,7 +116,6 @@ export default function TypingTest({words, testingState, setTestingState, testSt
                         }
                     }
                 })
-
                 return prevUserInput.slice(0, prevUserInput.length - 1)
             });
 
@@ -171,6 +131,7 @@ export default function TypingTest({words, testingState, setTestingState, testSt
             }
 
             setUserInput(prevUserInput => prevUserInput + e.key);
+
             if (e.key !== lettersArr[testStatistics.lettersWritten]) {
                 setTestStatistics(prevTestStatistics => ({
                     ...prevTestStatistics,
@@ -180,19 +141,6 @@ export default function TypingTest({words, testingState, setTestingState, testSt
                     totalTypings: prevTestStatistics.totalTypings + 1
                 }))
             } else {
-                //Версія 1: підходить для режиму, коли написані правильно літери не втрачаються, але не можуть бути отримані декілька раз
-                // if (backspacedLength > 0 && backspacedLetters.current[backspacedLength - 1] == lettersArr[testStatistics.lettersWritten]) {
-                //     setTestStatistics(prevTestStatistics => ({
-                //         ...prevTestStatistics,
-                //         lettersWritten: prevTestStatistics.lettersWritten + 1
-                //     }))
-                // } else {
-                //     setTestStatistics(prevTestStatistics => ({
-                //         ...prevTestStatistics,
-                //         rightTypings: prevTestStatistics.rightTypings + 1,
-                //         lettersWritten: prevTestStatistics.lettersWritten + 1
-                //     }))
-                // }
                 setTestStatistics(prevTestStatistics => ({
                     ...prevTestStatistics,
                     rightTypings: prevTestStatistics.rightTypings + 1,
@@ -200,9 +148,6 @@ export default function TypingTest({words, testingState, setTestingState, testSt
                     totalTypings: prevTestStatistics.totalTypings + 1
                 }))
             }
-            // if (backspacedLetters.current.length > 0) {
-            //     backspacedLetters.current.pop();
-            // }
         }
     }
 
