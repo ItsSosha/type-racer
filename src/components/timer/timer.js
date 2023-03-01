@@ -36,6 +36,7 @@ export default function Timer(props) {
             if (left <= 0) {
                 clearInterval(timerId);
                 props.setTestingState(false);
+                props.setIsShowingResults(true);
             }
         }, 1000)
 

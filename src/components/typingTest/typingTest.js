@@ -71,7 +71,7 @@ padding: 0;
 color: ${props => props.theme.text};
 `
 
-export default function TypingTest({words, testingState, setTestingState, testStatistics, setTestStatistics}) {
+export default function TypingTest({words, testingState, setTestingState, testStatistics, setTestStatistics, isShowingResults, setIsShowingResults}) {
     // const [lettersWritten, setLettersWritten] = useState(0)
     const [userInput, setUserInput] = useState('');
     const [caps, setCaps] = useState('');
@@ -99,57 +99,112 @@ export default function TypingTest({words, testingState, setTestingState, testSt
         } else if (!testingState) {
             setTestingState(true);
         } 
+
         if (e.key == "CapsLock") {
             setCaps(e.getModifierState('CapsLock') ? true : false);
         } else if (e.key == "Backspace" && testStatistics.lettersWritten > 0) {
-            setUserInput(prevUserInput => {
-                backspacedLetters.current.push(prevUserInput[testStatistics.lettersWritten - 1]);
-                return prevUserInput.slice(0, prevUserInput.length - 1)
-            });
-            setTestStatistics(prevTestStatistics => ({
-                ...prevTestStatistics,
-                lettersWritten: prevTestStatistics.lettersWritten - 1
-            }))
-        } else if (e.key.length == 1) {
-            if (lettersArr[testStatistics.lettersWritten] == " " && e.key != lettersArr[testStatistics.lettersWritten]) {
-                return;
-            }
-            setUserInput(prevUserInput => prevUserInput + e.key);
-             if (backspacedLetters.current.length > 0) {
-                    backspacedLetters.current.pop();
-                }
-            if (e.key != lettersArr[testStatistics.lettersWritten]) {
-                setTestStatistics(prevTestStatistics => ({
-                    ...prevTestStatistics,
-                    errorTypings: prevTestStatistics.errorTypings + 1,
-                    lettersWritten: prevTestStatistics.lettersWritten + 1
-                }))
-            } else {
-                setTestStatistics(prevTestStatistics => ({
-                    ...prevTestStatistics,
-                    rightTypings: prevTestStatistics.rightTypings + 1,
-                    lettersWritten: prevTestStatistics.lettersWritten + 1
-                }))
-            }
+            //Версія 1: підходить для режиму, коли написані правильно літери не втрачаються, але не можуть бути отримані декілька раз
+            // setUserInput(prevUserInput => {
+            //     backspacedLetters.current.push(prevUserInput[testStatistics.lettersWritten - 1]);
+            //     return prevUserInput.slice(0, prevUserInput.length - 1)
+            // });
+            // setTestStatistics(prevTestStatistics => ({
+            //     ...prevTestStatistics,
+            //     lettersWritten: prevTestStatistics.lettersWritten - 1
+            // }))
+
+            //Версія 2: для режиму зі стиранням правильних натискань, баг - не встигає рахувати правильні натискання
+            // setUserInput(prevUserInput => {
+            //     backspacedLetters.current.push(prevUserInput[testStatistics.lettersWritten - 1]);
+            //     return prevUserInput.slice(0, prevUserInput.length - 1)
+            // });
+
+            // const backspacedLength = backspacedLetters.current.length;
+
             // setTestStatistics(prevTestStatistics => {
-            //     // if (backspacedLetters.length > 0) {
-            //     //     backspacedLetters.current.shift();
-            //     // }
-            //     if (e.key != lettersArr[testStatistics.lettersWritten]) {
+            //     if (backspacedLetters.current[backspacedLength - 1] === lettersArr[prevTestStatistics.lettersWritten - 1]) {
             //         return {
             //             ...prevTestStatistics,
-            //             rightTypings: prevTestStatistics.rightTypings + 1,
-            //             lettersWritten: prevTestStatistics.lettersWritten + 1
+            //             rightTypings: prevTestStatistics.rightTypings - 1,
+            //             lettersWritten: prevTestStatistics.lettersWritten - 1
             //         }
             //     } else {
-            //         if (prevTestStatistics.lettersWritten)
             //         return {
             //             ...prevTestStatistics,
-            //             rightTypings: prevTestStatistics.rightTypings + 1,
-            //             lettersWritten: prevTestStatistics.lettersWritten + 1
+            //             lettersWritten: prevTestStatistics.lettersWritten - 1
             //         }
             //     }
             // })
+
+            //Версія 3: позбавлена від використання рефу, працює
+            setUserInput(prevUserInput => {
+                backspacedLetters.current.push(prevUserInput[testStatistics.lettersWritten - 1]);
+                setTestStatistics(prevTestStatistics => {
+                    //prevUserInput[prevUserInput.length - 1] !== " " && 
+                    if (prevUserInput[prevUserInput.length - 1] === lettersArr[prevTestStatistics.lettersWritten - 1]) {
+                        return {
+                            ...prevTestStatistics,
+                            rightTypings: prevTestStatistics.rightTypings - 1,
+                            lettersWritten: prevTestStatistics.lettersWritten - 1
+                        }
+                    } else {
+                        return {
+                            ...prevTestStatistics,
+                            errorTypings: prevTestStatistics.errorTypings - 1,
+                            lettersWritten: prevTestStatistics.lettersWritten - 1
+                        }
+                    }
+                })
+
+                return prevUserInput.slice(0, prevUserInput.length - 1)
+            });
+
+        } else if (e.key.length == 1) {
+
+            if (lettersArr[testStatistics.lettersWritten] === " " && e.key !== lettersArr[testStatistics.lettersWritten]) {
+                setTestStatistics(prevTestStatistics => ({
+                    ...prevTestStatistics,
+                    totalErrors : prevTestStatistics.totalErrors + 1,
+                    totalTypings: prevTestStatistics.totalTypings + 1
+                }));
+                return;
+            }
+
+            const backspacedLength = backspacedLetters.current.length;
+
+            setUserInput(prevUserInput => prevUserInput + e.key);
+            if (e.key !== lettersArr[testStatistics.lettersWritten]) {
+                setTestStatistics(prevTestStatistics => ({
+                    ...prevTestStatistics,
+                    errorTypings: prevTestStatistics.errorTypings + 1,
+                    totalErrors : prevTestStatistics.totalErrors + 1,
+                    lettersWritten: prevTestStatistics.lettersWritten + 1,
+                    totalTypings: prevTestStatistics.totalTypings + 1
+                }))
+            } else {
+                //Версія 1: підходить для режиму, коли написані правильно літери не втрачаються, але не можуть бути отримані декілька раз
+                // if (backspacedLength > 0 && backspacedLetters.current[backspacedLength - 1] == lettersArr[testStatistics.lettersWritten]) {
+                //     setTestStatistics(prevTestStatistics => ({
+                //         ...prevTestStatistics,
+                //         lettersWritten: prevTestStatistics.lettersWritten + 1
+                //     }))
+                // } else {
+                //     setTestStatistics(prevTestStatistics => ({
+                //         ...prevTestStatistics,
+                //         rightTypings: prevTestStatistics.rightTypings + 1,
+                //         lettersWritten: prevTestStatistics.lettersWritten + 1
+                //     }))
+                // }
+                setTestStatistics(prevTestStatistics => ({
+                    ...prevTestStatistics,
+                    rightTypings: prevTestStatistics.rightTypings + 1,
+                    lettersWritten: prevTestStatistics.lettersWritten + 1,
+                    totalTypings: prevTestStatistics.totalTypings + 1
+                }))
+            }
+            if (backspacedLetters.current.length > 0) {
+                backspacedLetters.current.pop();
+            }
         }
     }
 
@@ -179,7 +234,7 @@ export default function TypingTest({words, testingState, setTestingState, testSt
 
     return (
         <>
-            <Timer seconds={30} testingState={testingState} setTestingState={setTestingState}/>
+            <Timer seconds={30} testingState={testingState} setTestingState={setTestingState} isShowingResults={isShowingResults} setIsShowingResults={setIsShowingResults}/>
             <TestWrapper ref={testRef} tabIndex={0} onKeyDown={handleKeyDown}>
                 <CapsWarning isCapsPressed={caps}/>
                 <Caret />
