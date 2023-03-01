@@ -14,11 +14,21 @@ const words = faker.random.words(100);
 
 export default function Main() {
     const [isTesting, setIsTesting] = useState(false);
+    const [testStatistics, setTestStatistics] = useState({
+        rightTypings: 0,
+        errorTypings: 0,
+        lettersWritten: 0,
+        totalLetters: 0
+    });
 
 
     return (
         <MainWrapper>
-            <TypingTest words={words} testingState={isTesting} setTestingState={setIsTesting}/>       
+            <TypingTest words={words} 
+                testingState={isTesting} 
+                setTestingState={setIsTesting} 
+                testStatistics={testStatistics}
+                setTestStatistics={setTestStatistics}/>       
         </MainWrapper>
     )
 }
