@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/type-racer/static/css/main.5a2ec3e7.css",
+    "main.js": "/type-racer/static/js/main.aea5404b.js",
+    "index.html": "/type-racer/index.html",
+    "main.5a2ec3e7.css.map": "/type-racer/static/css/main.5a2ec3e7.css.map",
+    "main.aea5404b.js.map": "/type-racer/static/js/main.aea5404b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5a2ec3e7.css",
+    "static/js/main.aea5404b.js"
+  ]
+}
