@@ -14,9 +14,16 @@ margin: 25px 0 45px;
 height: 3em;
 
 h1 {
+    align-self: center;
     margin: 0 45px 0 10px;
     cursor: pointer;
     color: ${props => props.theme.text}
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5em;
+    }        
 }
 `
 

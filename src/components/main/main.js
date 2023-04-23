@@ -12,6 +12,12 @@ align-self: center;
 width: 100%;
 margin: 45px 0 45px;
 flex-grow: 1;
+display: flex;
+flex-direction: column;
+
+@media (max-width: 480px) {
+    font-size: 0.8em;
+}
 `
 
 const words = faker.random.words(100);

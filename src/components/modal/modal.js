@@ -57,6 +57,7 @@ outline: none;
 border: none;
 font-size: 1rem;
 font-family: inherit;
+color: ${props => props.theme.secondary};
 
 &::placeholder {
     color: inherit
@@ -91,21 +92,27 @@ overflow-y: auto;
 
 export default function Modal({isShown, handleModalClose, handleThemeChange, themes}) {
 
+    const [input, setInput] = useState('');
+
     const names = Object.keys(themes);
 
     const selectedTheme = useContext(ThemeContext);
 
-    const themeButtons = names.map(theme => {
+    const themeButtons = names.filter(name => name.includes(input)).map(theme => {
         return (
             <ThemeButton themePreview={{...themes[theme], name: theme}} handleThemeChange={e => {
                 handleThemeChange(e.currentTarget.dataset.theme);
                 handleModalClose(prevModalState => !prevModalState);
                 localStorage.setItem('theme', theme);
-
             }}
-            isSelected={theme === selectedTheme.name ? true : false}/>
+            isSelected={theme === selectedTheme.name ? true : false}
+            key={theme}/>
         )
     })
+
+    const handleModalInputChange = (data) => {
+        setInput(data);
+    }
 
     return (
         <ModalWrapper className={isShown ? "show" : ""} 
@@ -113,7 +120,7 @@ export default function Modal({isShown, handleModalClose, handleThemeChange, the
             <ModalContent onClick={e => e.stopPropagation()}>
                 <div style={{display: "flex", alignItems: "center", padding: "0.5em 0"}}>
                     <FontAwesomeIcon icon={faSearch} style={{padding: '0 0.5em'}} size={"lg"}></FontAwesomeIcon>
-                    <Search placeholder={"Type to search"}/>
+                    <Search placeholder={"Type to search"} onChange={(e) => handleModalInputChange(e.target.value)}/>
                 </div>
                 <Options>
                     {themeButtons}

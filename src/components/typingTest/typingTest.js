@@ -79,15 +79,16 @@ export default function TypingTest({words, testingState, setTestingState, testSt
     const lettersArr = words.split('');
 
     const createLetterSpans = arr => {
-        return arr.map(letter => {
+        return arr.map((letter, index) => {
             return (
-                <span>{letter}</span>
+                <span key={index}>{letter}</span>
             )
         })
     }
 
     const memoizedElements = useMemo(() => {
         return createLetterSpans(lettersArr)
+        // eslint-disable-next-line
     }, [words]);
 
     const handleKeyDown = e => {
@@ -97,9 +98,9 @@ export default function TypingTest({words, testingState, setTestingState, testSt
             setTestingState(true);
         } 
 
-        if (e.key == "CapsLock") {
+        if (e.key === "CapsLock") {
             setCaps(e.getModifierState('CapsLock') ? true : false);
-        } else if (e.key == "Backspace" && testStatistics.lettersWritten > 0) {
+        } else if (e.key === "Backspace" && testStatistics.lettersWritten > 0) {
             setUserInput(prevUserInput => {
                 setTestStatistics(prevTestStatistics => {
                     if (prevUserInput[prevUserInput.length - 1] === lettersArr[prevTestStatistics.lettersWritten - 1]) {
@@ -119,7 +120,7 @@ export default function TypingTest({words, testingState, setTestingState, testSt
                 return prevUserInput.slice(0, prevUserInput.length - 1)
             });
 
-        } else if (e.key.length == 1) {
+        } else if (e.key.length === 1) {
 
             if (lettersArr[testStatistics.lettersWritten] === " " && e.key !== lettersArr[testStatistics.lettersWritten]) {
                 setTestStatistics(prevTestStatistics => ({
@@ -155,10 +156,11 @@ export default function TypingTest({words, testingState, setTestingState, testSt
         testRef.current.focus();
     }, [])
 
+    // eslint-disable-next-line
     const letters = lettersArr.map((letter, index) => {
         if (index < testStatistics.lettersWritten) {
-            if (userInput[index] == letter) {
-                if (letter == " ") {
+            if (userInput[index] === letter) {
+                if (letter === " ") {
                     return (
                         <span>&nbsp;</span>
                     ) 
@@ -174,6 +176,7 @@ export default function TypingTest({words, testingState, setTestingState, testSt
             }
         }
     })
+    
 
     return (
         <>

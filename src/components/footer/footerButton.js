@@ -2,14 +2,11 @@ import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const StyledFooterButton = styled.a`
-display: grid;
-grid-auto-flow: column;
+display: flex;
 align-items: center;
-width: max-content;
-grid-column-gap: 1ch;
-cursor: pointer;
-color: inherit;
+column-gap: 1ch;
 text-decoration: none;
+color: inherit;
 `
 
 export default function FooterButton({icon, text, link}) {

@@ -22,7 +22,12 @@ animation: .5s linear ${resultsShow} forwards;
 text-align: center;
 
 & > div {
-    width: 20%;
+    width: max-content;
+    min-width: 20%;
+}
+
+@media (max-width: 768px) {
+    flex-direction: column;
 }
 `
 
