@@ -27,8 +27,7 @@ justify-content: space-evenly;
 align-items: center;
 border-radius: 1em;
 margin-left: auto;
-width: 23%;
-max-width: 4.5em;
+width: 64px;
 height: 100%;
 
 & > div {

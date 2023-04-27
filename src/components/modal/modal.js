@@ -35,7 +35,7 @@ const ModalContent = styled.div`
     display: flex;
     flex-direction: column;
     height: 75vh;
-    min-width: 300px;
+    min-width: 240px;
     width: 40%;
     background-color: ${props => props.theme.background};
     border-radius: 10px;

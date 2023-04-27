@@ -9,16 +9,39 @@ cursor: pointer;
 align-items: center;
 user-select: none;
 color: ${props => props.theme.main};
+
+svg {
+    width: auto;
+}
+
 svg + span {
     align-self: end;
     font-size: 13px;
     visibility: hidden;
 }
 
+
 &:hover svg + span {
         visibility: visible;
         transition: all 0.250s ease;
     }
+
+
+@media (max-width: 768px) {
+
+    & {
+        width: auto;
+    }
+
+    svg {
+        height: 1.2rem;
+    }
+
+    svg + span {
+        display: none;
+    }
+}
+
 `
 
 export default function HeaderButton({icon, text, handleClick}) {

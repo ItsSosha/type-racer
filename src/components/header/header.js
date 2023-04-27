@@ -21,8 +21,17 @@ h1 {
 }
 
 @media (max-width: 768px) {
+
     h1 {
-        font-size: 1.5em;
+        font-size: calc(1rem + 1vw);
+        margin-right: auto;
+    }        
+}
+
+@media (max-width: 398px) {
+
+    h1 {
+        font-size: calc(0.8rem + 1vw);
     }        
 }
 `
